@@ -90,7 +90,7 @@ public:
             res.array.set(i,(array[i]+another.array[i]+residual)%10);
             residual = (array[i]+another.array[i]+residual)/10;
         }
-        DynamicContainer maxDynamicArray; //= array.currSize>another.array.currSize ? array : another.array;
+        DynamicContainer maxDynamicArray; 
         if (array.currSize>another.array.currSize){
             for (int i=0;i<array.currSize;i++){
                 maxDynamicArray.add(array[i]);
@@ -107,10 +107,6 @@ public:
         if (residual>0){
             res.array.add(residual);
         }
-        //delete[] zero.array.getElem();
-        //delete[] maxDynamicArray.getElem();Удаляя maxDynArr он удалил еще инфу под anotherArr
-        //zero.array.add(0);
-        //delete[] zero.array.getElem();
         return res;
     }
 
@@ -170,8 +166,8 @@ public:
     }
     BigInt operator * (BigInt const &another) {
         auto anotherArr = another.array;
-        auto minArr = array.currSize> anotherArr.currSize ? anotherArr :array;
-        auto maxArr = array.currSize< anotherArr.currSize ? anotherArr :array;
+        auto minArr = *this>= another ? anotherArr :array;
+        auto maxArr = *this< another ? anotherArr :array;
 
         BigInt res(stringGenerator(array.currSize*anotherArr.currSize+1, '0'));
         BigInt buff1(stringGenerator(array.currSize*anotherArr.currSize+1, '0'));
@@ -198,14 +194,14 @@ public:
             }
 
             flag = !flag;
-            //std::cout<<buff1<<std::endl;
+
             res = buff1+res;
-            //std::cout<<buff1<<std::endl;
+
             buff1.clean();
             res = buff2+res;
-            //std::cout<<buff2<<std::endl;
+
             buff2.clean();
-            //std::cout<<res;
+
         }
         while (res.array[res.array.currSize - 1] == 0) {
             if (res.array.currSize == 1) {
@@ -336,4 +332,11 @@ public:
 
         return *this;
     };
+	std::string getNum(){
+		std::string out;
+		for (int i=array.currSize-1;i>=0;i--){
+			out +=(std::to_string(array[i]));
+		}
+		return out;
+	}
 };
