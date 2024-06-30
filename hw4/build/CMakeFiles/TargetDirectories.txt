@@ -1,0 +1,4 @@
+/mnt/c/Users/ilia1/OneDrive/Рабочий стол/git/hw4/build/CMakeFiles/MyLibrary.dir
+/mnt/c/Users/ilia1/OneDrive/Рабочий стол/git/hw4/build/CMakeFiles/my_class_test.dir
+/mnt/c/Users/ilia1/OneDrive/Рабочий стол/git/hw4/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/ilia1/OneDrive/Рабочий стол/git/hw4/build/CMakeFiles/rebuild_cache.dir
