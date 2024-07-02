@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include <algorithm>
 #include "bigInt.h"
 
 BigInt::BigInt(const BigInt &other) { array = other.array; }
@@ -11,8 +11,6 @@ BigInt::BigInt(BigInt &&other) {
   other.array.currSize = 0;
 }
 
-BigInt::BigInt(std::string str) 
-}
 BigInt BigInt::abs() {
   if (array[array.currSize - 1] < 0) {
     array.set(array.currSize - 1, array[array.currSize - 1] * (-1));

@@ -1,7 +1,7 @@
 #ifndef HW3_SRC_BIGINT_H_
 #define HW3_SRC_BIGINT_H_
 
-#endif 
+#endif  // HW3_SRC_BIGINT_H_
 
 #include "dynamicContainer.h"
 #include <cstdint>
@@ -9,31 +9,29 @@
 #include <string>
 
 class BigInt {
-private:
-
+ private:
   int32_t base = 10;
 
-public:
-
+ public:
   DynamicContainer array;
 
-  explicit BigInt(int32_t number) : BigInt(std::to_string(number)){}
+  explicit BigInt(int32_t number) : BigInt(std::to_string(number)) {}
   BigInt(const BigInt &other);
 
   BigInt(BigInt &&other);
 
   explicit BigInt(std::string str) {
-	for (int i = 0; i < str.size(); i++) {
-		if (str[str.size() - i - 1] == '-') {
-			array.set(i - 1, array[i - 1] * (-1));
-			break;
-		}
-		if (str[str.size() - i - 1] == '+') {
-			array.set(i - 1, array[i - 1]);
-			break;
-		}
-		array.add(str[str.size() - i - 1] - '0');
-	}
+    for (int i = 0; i < str.size(); i++) {
+        if (str[str.size() - i - 1] == '-') {
+            array.set(i - 1, array[i - 1] * (-1));
+            break;
+        }
+        if (str[str.size() - i - 1] == '+') {
+            array.set(i - 1, array[i - 1]);
+            break;
+        }
+        array.add(str[str.size() - i - 1] - '0');
+    }
   }
   BigInt abs();
   void clean();

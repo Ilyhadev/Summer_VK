@@ -1,17 +1,15 @@
 #ifndef HW3_SRC_DYNAMICCONTAINER_H_
 #define HW3_SRC_DYNAMICCONTAINER_H_
 
-#endif
+#endif  // HW3_SRC_DYNAMICCONTAINER_H_
 #include <memory>
 class DynamicContainer {
-private:
-
+ private:
   int64_t sizeofArr = 1;
   std::shared_ptr<int[]> elem = std::shared_ptr<int[]>(new int[sizeofArr]);
   bool isDeleted;
 
-public:
-
+ public:
   int64_t currSize = 0;
   DynamicContainer();
   void add(int number);
