@@ -1,12 +1,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <cstdint>
-#include <iostream>
-#include <memory>
-#include <string>
-
 #include "bigInt.h"
+#include <iostream>
+#include <string>
 
 TEST(BigIntTests, sumPosPos) {
   BigInt num1("123");
@@ -165,7 +162,15 @@ TEST(BigIntTests, bigMulRnd) {
 
   EXPECT_EQ(num1.getNum(), "16431657233105431211820122395305694786122");
 }
-int main(int argc, char* argv[]) {
+
+TEST(BigIntTests, moveTest) {
+  BigInt num1("111111");
+  BigInt num2(std::move(num1));
+  EXPECT_EQ(num2.getNum(), "111111");
+  EXPECT_EQ(num1.getNum(), ""); // as we can see num1 was deletes by move
+}
+
+int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

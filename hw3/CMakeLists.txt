@@ -9,6 +9,8 @@ add_compile_options(-g)
 # ЗДЕСЬ ПИШЕМ СВОИ ИСХОДНИКИ
 set(SOURCE_FILES
     src/main.cpp
+src/bigInt.cpp
+src/dynamicContainer.cpp
 )
 
 # Чтобы можно было везде писать #include "my_class.h" без указания полного пути
