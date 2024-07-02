@@ -8,11 +8,11 @@ add_compile_options(-g)
 
 # ЗДЕСЬ ПИШЕМ СВОИ ИСХОДНИКИ
 set(SOURCE_FILES
-    main.cpp
+    src/tokenParser.cpp
 )
 
 # Чтобы можно было везде писать #include "my_class.h" без указания полного пути
-
+include_directories(src)
 
 # Если хотите хранить хедеры в другой папке (например, headers), то можно указать путь до них
 # include_directories(headers)
@@ -27,7 +27,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(
   my_test # имя теста, можно любое (но если поменяли, то дальше нужно тоже изменить)
   # А вот тут указываем файл
-  tests.cpp
+  tests/tests.cpp
 )
 # p.s. скомпиллированный тест будет лежать в build по имени теста
 

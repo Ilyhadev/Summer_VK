@@ -4,10 +4,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include <cstdint>
 #include "tokenParser.h"
 
-long long int func(long long int arg) {
+int64_t func(int64_t  arg) {
   arg += 100500;
   return arg;
 }
@@ -49,7 +49,8 @@ TEST(TokenParser, NoSetDigitFunc) {
 
   ASSERT_EQ(output[0], "infoString100500");
   ASSERT_EQ(output[1], "infoStringWithDigits123100500");
-  ASSERT_EQ(output.size(), 2);  // Проверяет что 3 токен числа не обработался никакой функцией, так как она не была задана
+  ASSERT_EQ(output.size(), 2);  //  Проверяет что 3 токен числа не обработался
+                                //  никакой функцией, так как она не была задана
 }
 
 TEST(TokenParser, NoSetStringFunc) {
@@ -60,7 +61,8 @@ TEST(TokenParser, NoSetStringFunc) {
   std::vector<std::string> output = tokenParser.Parse(info);
 
   ASSERT_EQ(output[0], "101734");
-  ASSERT_EQ(output.size(), 1);  // Проверяет что 2 токена строк не обработались никакой функцией, так как она не была задана
+  ASSERT_EQ(output.size(), 1);  //  Проверяет что 2 токена строк не обработались
+                                //  никакой функцией, так как она не была задана
 }
 
 int main(int argc, char* argv[]) {
