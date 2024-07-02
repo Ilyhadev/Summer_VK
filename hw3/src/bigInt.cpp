@@ -3,26 +3,15 @@
 
 #include "bigInt.h"
 
-BigInt::BigInt(const BigInt &other) { array = other.array; };
+BigInt::BigInt(const BigInt &other) { array = other.array; }
 
 BigInt::BigInt(BigInt &&other) {
   array = other.array;
   other.array.getElem() = nullptr;
   other.array.currSize = 0;
-};
+}
 
-BigInt::BigInt(std::string str) {
-  for (int i = 0; i < str.size(); i++) {
-    if (str[str.size() - i - 1] == '-') {
-      array.set(i - 1, array[i - 1] * (-1));
-      break;
-    }
-    if (str[str.size() - i - 1] == '+') {
-      array.set(i - 1, array[i - 1]);
-      break;
-    }
-    array.add(str[str.size() - i - 1] - '0');
-  }
+BigInt::BigInt(std::string str) 
 }
 BigInt BigInt::abs() {
   if (array[array.currSize - 1] < 0) {
@@ -42,9 +31,9 @@ std::ostream &operator<<(std::ostream &os, BigInt &number) {
   return os;
 }
 
-std::string BigInt::stringGenerator(long long int len, char sym) {
+std::string BigInt::stringGenerator(int64_t len, char sym) {
   std::string res;
-  for (long long int i = 0; i < len; i++) {
+  for (int64_t i = 0; i < len; i++) {
     res += sym;
   }
   return res;
@@ -78,8 +67,7 @@ BigInt BigInt::operator+(BigInt another) {
     res.array.set(i, (array[i] + another.array[i] + residual) % 10);
     residual = (array[i] + another.array[i] + residual) / 10;
   }
-  DynamicContainer maxDynamicArray; //= array.currSize>another.array.currSize ?
-                                    // array : another.array;
+  DynamicContainer maxDynamicArray;
   if (array.currSize > another.array.currSize) {
     for (int i = 0; i < array.currSize; i++) {
       maxDynamicArray.add(array[i]);
@@ -214,8 +202,8 @@ BigInt BigInt::operator*(BigInt const &another) {
   return res;
 }
 
-int BigInt::operator[](long long int place) { return array[place]; }
-int BigInt::operator[](long long int place) const { return array[place]; }
+int BigInt::operator[](int64_t place) { return array[place]; }
+int BigInt::operator[](int64_t place) const { return array[place]; }
 bool BigInt::operator==(BigInt const &another) {
   if (array[array.currSize - 1] < 0 &&
       another[another.array.currSize - 1] > 0) {
@@ -328,7 +316,7 @@ BigInt &BigInt::operator=(const BigInt &other) {
     array.set(i, other.array[i]);
 
   return *this;
-};
+}
 std::string BigInt::getNum() {
   std::string out;
   for (int i = array.currSize - 1; i >= 0; i--) {

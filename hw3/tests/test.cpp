@@ -167,7 +167,7 @@ TEST(BigIntTests, moveTest) {
   BigInt num1("111111");
   BigInt num2(std::move(num1));
   EXPECT_EQ(num2.getNum(), "111111");
-  EXPECT_EQ(num1.getNum(), ""); // as we can see num1 was deletes by move
+  EXPECT_EQ(num1.getNum(), "");  // as we can see num1 was deletes by move
 }
 
 int main(int argc, char *argv[]) {

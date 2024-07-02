@@ -26,14 +26,14 @@ void DynamicContainer::add(int number) {
     add(number);
   }
 }
-int DynamicContainer::operator[](long long int place) {
+int DynamicContainer::operator[](int64_t place) {
   if (place < currSize) {
     return elem[place];
   } else {
     return 100500;
   }
 }
-int DynamicContainer::operator[](long long int place) const {
+int DynamicContainer::operator[](int64_t place) const {
   if (place < currSize) {
     return elem[place];
   } else {
@@ -41,7 +41,7 @@ int DynamicContainer::operator[](long long int place) const {
   }
 }
 
-void DynamicContainer::set(long long int place, int number) {
+void DynamicContainer::set(int64_t place, int number) {
   if (place < sizeofArr) {
     elem[place] = number;
   }
@@ -53,8 +53,6 @@ DynamicContainer DynamicContainer::abs() {
   return *this;
 }
 void DynamicContainer::removeFirst() {
-
-  // std::copy(elem,elem+currSize-1,elem);
   elem[currSize - 1] = 0;
   currSize -= 1;
 }
