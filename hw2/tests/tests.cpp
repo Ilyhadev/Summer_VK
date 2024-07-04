@@ -1,29 +1,48 @@
 #include <gtest/gtest.h>
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cstdint>
+
 #include "tokenParser.h"
 
-int64_t func(int64_t  arg) {
-  arg += 100500;
-  return arg;
+void func(std::string& arg, int begin, int end) {
+  std::string res;
+  for (int i = 0; i < arg.size(); i++) {
+    if (i == end) {
+      res += "100500Dig";
+      if (end + 1 != arg.size()) {
+        res += arg[end];
+      }
+    } else {
+      res += arg[i];
+    }
+  }
+  arg = res;
 }
 
-std::string func2(std::string arg) {
-  arg += "100500";
-  return arg;
+void func2(std::string& arg, int begin, int end) {
+  std::string res;
+  for (int i = 0; i < arg.size(); i++) {
+    if (i == end) {
+      res += "100500Str";
+      if (end + 1 != arg.size()) {
+        res += arg[end];
+      }
+    } else {
+      res += arg[i];
+    }
+  }
+  arg = res;
 }
-
 
 TEST(TokenParser, unconditionalFunc) {
   TokenParser tokenParser;
+  std::string info = " infoString infoStringWithDigits123 1234 ";
+  tokenParser.Parse(info);
 
-  tokenParser.Parse(" infoString infoStringWithDigits123 1234 ");
-
-  ASSERT_EQ(tokenParser.getInfo(),
-            "B infoString infoStringWithDigits123 1234 E");
+  ASSERT_EQ(info, "B infoString infoStringWithDigits123 1234 E");
 }
 
 TEST(TokenParser, setDigitStringFunc) {
@@ -32,11 +51,10 @@ TEST(TokenParser, setDigitStringFunc) {
   tokenParser.SetStringTokenCallback(func2);
 
   std::string info = " infoString infoStringWithDigits123 1234 ";
-  std::vector<std::string> output = tokenParser.Parse(info);
-
-  ASSERT_EQ(output[0], "infoString100500");
-  ASSERT_EQ(output[1], "infoStringWithDigits123100500");
-  ASSERT_EQ(output[2], "101734");
+  tokenParser.Parse(info);
+  ASSERT_EQ(
+      info,
+      "B infoString100500Str infoStringWithDigits123100500Str 1234100500DigE");
 }
 
 TEST(TokenParser, NoSetDigitFunc) {
@@ -44,12 +62,11 @@ TEST(TokenParser, NoSetDigitFunc) {
   tokenParser.SetStringTokenCallback(func2);
 
   std::string info = " infoString infoStringWithDigits123 1234 ";
-  std::vector<std::string> output = tokenParser.Parse(info);
+  tokenParser.Parse(info);
 
-  ASSERT_EQ(output[0], "infoString100500");
-  ASSERT_EQ(output[1], "infoStringWithDigits123100500");
-  ASSERT_EQ(output.size(), 2);  //  Проверяет что 3 токен числа не обработался
-                                //  никакой функцией, так как она не была задана
+  ASSERT_EQ(
+      info,
+      "B infoString100500Str infoStringWithDigits123100500Str 1234 E");
 }
 
 TEST(TokenParser, NoSetStringFunc) {
@@ -57,13 +74,10 @@ TEST(TokenParser, NoSetStringFunc) {
   tokenParser.SetDigitTokenCallback(func);
 
   std::string info = " infoString infoStringWithDigits123 1234 ";
-  std::vector<std::string> output = tokenParser.Parse(info);
+  tokenParser.Parse(info);
 
-  ASSERT_EQ(output[0], "101734");
-  ASSERT_EQ(output.size(), 1);  //  Проверяет что 2 токена строк не обработались
-                                //  никакой функцией, так как она не была задана
+  ASSERT_EQ(info, "B infoString infoStringWithDigits123 1234100500DigE");
 }
-
 int main(int argc, char* argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
