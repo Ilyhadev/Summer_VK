@@ -17,11 +17,13 @@ BigInt BigInt::abs() {
   }
   return *this;
 }
+
 void BigInt::clean() {
   for (int i = 0; i < array.currSize; i++) {
     array.set(i, 0);
   }
 }
+
 std::ostream &operator<<(std::ostream &os, BigInt &number) {
   for (int i = 0; i < number.array.currSize; i++) {
     os << number.array[number.array.currSize - i - 1];
@@ -41,6 +43,7 @@ BigInt BigInt::operator+(int32_t number) {
   BigInt temp(number);
   return (*this) + temp;
 }
+
 BigInt BigInt::operator+(BigInt another) {
   BigInt zero("0");
   // Если слева минус а справа плюс то вычитаем просто
@@ -55,7 +58,6 @@ BigInt BigInt::operator+(BigInt another) {
   if ((*this) < zero && another < zero) {
     return -((*this).abs() + another.abs());
   }
-
   int residual = 0;
   BigInt res(
       stringGenerator(std::max(array.currSize, another.array.currSize), '0'));
@@ -92,6 +94,7 @@ BigInt BigInt::operator-(int32_t number) {
   BigInt temp(number);
   return (*this) - temp;
 }
+
 BigInt BigInt::operator-(BigInt another) {
   auto anotherArr = another.array;
   BigInt res(
@@ -135,6 +138,7 @@ BigInt BigInt::operator-(BigInt another) {
   }
   return res;
 }
+
 BigInt BigInt::operator-() {
   array.set(array.currSize - 1, array[array.currSize - 1] * -1);
   return *this;
@@ -144,6 +148,7 @@ BigInt BigInt::operator*(int32_t number) {
   BigInt temp(number);
   return (*this) * temp;
 }
+
 BigInt BigInt::operator*(BigInt const &another) {
   auto anotherArr = another.array;
   auto minArr = *this >= another ? anotherArr : array;
@@ -201,7 +206,9 @@ BigInt BigInt::operator*(BigInt const &another) {
 }
 
 int BigInt::operator[](int64_t place) { return array[place]; }
+
 int BigInt::operator[](int64_t place) const { return array[place]; }
+
 bool BigInt::operator==(BigInt const &another) {
   if (array[array.currSize - 1] < 0 &&
       another[another.array.currSize - 1] > 0) {
@@ -223,6 +230,7 @@ bool BigInt::operator==(BigInt const &another) {
     return true;
   }
 }
+
 bool BigInt::operator>(BigInt const &another) {
   if (*this == another) {
     return false;
@@ -262,6 +270,7 @@ bool BigInt::operator>(BigInt const &another) {
     }
   }
 }
+
 bool BigInt::operator<(BigInt const &another) {
   if (!(*this == another)) {
     if (!(*this > another)) {
@@ -281,6 +290,7 @@ bool BigInt::operator<=(BigInt const &another) {
     return false;
   }
 }
+
 bool BigInt::operator>=(BigInt const &another) {
   if ((*this == another) || !(*this < another)) {
     return true;
@@ -288,6 +298,7 @@ bool BigInt::operator>=(BigInt const &another) {
     return false;
   }
 }
+
 bool BigInt::operator!=(BigInt const &another) {
   if (!(*this == another)) {
     return true;
@@ -295,6 +306,7 @@ bool BigInt::operator!=(BigInt const &another) {
     return false;
   }
 }
+
 BigInt &BigInt::operator=(BigInt &&other) noexcept {
   if (*this == other)
     return *this;
@@ -303,7 +315,8 @@ BigInt &BigInt::operator=(BigInt &&other) noexcept {
   other.array.getElem() = nullptr;
   other.array.currSize = 0;
   return *this;
-};
+}
+
 BigInt &BigInt::operator=(const BigInt &other) {
   if (array.currSize != other.array.currSize) {
     array = other.array;
@@ -315,6 +328,7 @@ BigInt &BigInt::operator=(const BigInt &other) {
 
   return *this;
 }
+
 std::string BigInt::getNum() {
   std::string out;
   for (int i = array.currSize - 1; i >= 0; i--) {
