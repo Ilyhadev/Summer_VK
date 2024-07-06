@@ -3,11 +3,11 @@
 #include "tokenParser.h"
 
 void TokenParser::generalUnconditionalStart(
-    std::string &infor) {  // Функции по умолчанию
-  infor = "B" + infor;     // Знак B = begin
+    const std::string &infor) {  // Функции по умолчанию
+  const_cast<std::string &>(infor) = "B" + infor;  // Знак B = begin
 }
-void TokenParser::generalUnconditionalEnd(std::string &infor) {
-  infor = infor + "E";
+void TokenParser::generalUnconditionalEnd(const std::string &infor) {
+  const_cast<std::string &>(infor) = infor + "E";
 }  // E = end
 
 void TokenParser::SetStartCallback(std::function<void(std::string &)> func) {
@@ -48,6 +48,8 @@ void TokenParser::Parse(
   for (int i = 0; i < info.size(); i++) {
     if (info[i] == ' ' || info[i] == '\n' || info[i] == '\t') {
       begin = i + 1;
+      // if (i + 1 == info.size()) token = "";  // Решение бага последнего
+      // символа
 
       for (int j = i + 1; j < info.size(); j++) {
         if (abs(info[j] - '0') <= 9) {  // Считаем количество цифр

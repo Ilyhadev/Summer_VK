@@ -11,8 +11,8 @@
 #include <vector>
 class TokenParser {
  private:
-  void generalUnconditionalStart(std::string& infor);
-  void generalUnconditionalEnd(std::string& infor);
+  void generalUnconditionalStart(const std::string& infor);
+  void generalUnconditionalEnd(const std::string& infor);
   std::function<void(std::string&, int begin, int end)> funcForDigitToken;
   std::function<void(std::string&, int begin, int end)> funcForStringToken;
   std::function<void(std::string&)> funcForUnconditionalTokenStart;

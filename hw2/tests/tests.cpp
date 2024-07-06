@@ -7,7 +7,7 @@
 
 #include "tokenParser.h"
 
-void func(std::string& arg, int begin, int end) {
+void func(const std::string& arg, int begin, int end) {
   std::string res;
   for (int i = 0; i < arg.size(); i++) {
     if (i == end) {
@@ -19,10 +19,10 @@ void func(std::string& arg, int begin, int end) {
       res += arg[i];
     }
   }
-  arg = res;
+  const_cast<std::string&>(arg) = res;
 }
 
-void func2(std::string& arg, int begin, int end) {
+void func2(const std::string& arg, int begin, int end) {
   std::string res;
   for (int i = 0; i < arg.size(); i++) {
     if (i == end) {
@@ -34,7 +34,7 @@ void func2(std::string& arg, int begin, int end) {
       res += arg[i];
     }
   }
-  arg = res;
+  const_cast<std::string&>(arg) = res;
 }
 
 TEST(TokenParser, unconditionalFunc) {
@@ -64,9 +64,8 @@ TEST(TokenParser, NoSetDigitFunc) {
   std::string info = " infoString infoStringWithDigits123 1234 ";
   tokenParser.Parse(info);
 
-  ASSERT_EQ(
-      info,
-      "B infoString100500Str infoStringWithDigits123100500Str 1234 E");
+  ASSERT_EQ(info,
+            "B infoString100500Str infoStringWithDigits123100500Str 1234 E");
 }
 
 TEST(TokenParser, NoSetStringFunc) {
