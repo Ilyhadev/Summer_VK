@@ -8,17 +8,33 @@
 #include <utility>
 
 #include "errors.h"
-std::string func(const std::string& res, int32_t pos) {
+
+void checkIfstringValid(std::string str) {
+  for (int i = 0; i < str.size(); i++) {
+    if (str[i] == '{') {
+      int temp = i + 1;
+      do {
+        if (!std::isdigit(str[temp])) { // Фигурные скобки - зарезервированный
+                                        // символ, если встречаются вне
+                                        // контекста {n} выбрасывать исключение;
+          throw ErrorFormatBrackets(temp);
+        }
+        temp += 1;
+      } while (str[temp] != '}');
+    }
+  }
+}
+std::string func(const std::string &res, int32_t pos) {
   for (int32_t i = 0; i < res.size() - 1; i++) {
     if (res[i] == '{' || res[i] == '}') {
-      throw ErrorNumOfArg(__LINE__, __FILE__);
+      throw ErrorNumOfArg();
     }
   }
   return res;
 }
 template <typename T, typename... Args>
-std::string func(const std::string& string, int32_t position, const T& arg,
-                 const Args&... args) {
+std::string func(const std::string &string, int32_t position, const T &arg,
+                 const Args &...args) {
   std::basic_ostringstream<char> result;
   bool isBracketsAppear = false;
   for (int32_t i = 0; i < string.size(); i++) {
@@ -28,33 +44,26 @@ std::string func(const std::string& string, int32_t position, const T& arg,
       temp += 1;
       std::string digit;
       do {
-        if (!std::isdigit(
-                string[temp])) {  // Фигурные скобки - зарезервированный символ,
-                                  // если встречаются вне контекста {n}
-                                  // выбрасывать исключение;
-          throw ErrorFormatBrackets(__LINE__, __FILE__);
+        if (std::isdigit(string[temp])) {
+          digit += string[temp];
         }
-        digit += string[temp];
+
         temp += 1;
       } while (string[temp] != '}');
 
-      try {  // Оставил на всякий случай - do-while должен это 100 процентов
-             // учитывать (что в скобках число), но пускай будет.
-        if (stoi(digit) == (position)) {
-          result << arg;
-          i = temp;
-        } else {
-          result << string[i];
-        }
-      } catch (std::invalid_argument& e) {
-        throw ErrorFormatBrackets(__LINE__, __FILE__);
+      if (stoi(digit) == (position)) {
+        result << arg;
+        i = temp;
+      } else {
+        result << string[i];
       }
+
     } else {
       result << string[i];
     }
   }
   if (!isBracketsAppear) {
-    throw ErrorNumOfArg(__LINE__, __FILE__);
+    throw ErrorNumOfArg();
   }
 
   position += 1;
@@ -62,6 +71,6 @@ std::string func(const std::string& string, int32_t position, const T& arg,
   return func(res, position, args...);
 }
 template <typename... Args>
-std::string format(const std::string& s, const Args&... args) {
+std::string format(const std::string &s, const Args &...args) {
   return func(s, 0, args...);
 }
