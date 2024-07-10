@@ -1,6 +1,31 @@
 #include <gtest/gtest.h>
 
 #include "avlTreeImp.h"
+TEST(fancyTestOnTreeInsides,
+     AVLTreeTests) {  // Я старался его изначально сделать в одну строчку как вы
+                      // вк написали, но из-за длины у меня не вышло так
+                      // элегантно)
+  avl<int, std::string, std::less<>, AllocatorMine<NodeAVL<int, std::string>>>
+      a{{12, "asd"},    {4213, "sfdg"},    {5435, "sdfdsf"},
+        {12334, "asd"}, {4213243, "sfdg"}, {567435, "sdfdsf"},
+        {12235, "asd"}, {4217984, "sfdg"}, {535436, "sdfdsf"}};
+  std::vector<std::pair<int, std::string>> answer{
+      NodeAVL<int, std::string>({12, "asd"}).pair,
+      NodeAVL<int, std::string>({4213, "sfdg"}).pair,
+      NodeAVL<int, std::string>({5435, "sdfdsf"}).pair,
+      NodeAVL<int, std::string>({12235, "asd"}).pair,
+      NodeAVL<int, std::string>({12334, "asd"}).pair,
+      NodeAVL<int, std::string>({535436, "sdfdsf"}).pair,
+      NodeAVL<int, std::string>({567435, "sdfdsf"}).pair,
+      NodeAVL<int, std::string>({4213243, "sfdg"}).pair,
+      NodeAVL<int, std::string>({4217984, "sfdg"}).pair};
+  auto itera = a.begin();
+  int i = 0;
+  for (; itera != a.end(); ++itera, i++) {
+    EXPECT_EQ((*itera).pair, answer[i]);
+  }
+}
+
 TEST(toperatorOne, AVLTreeTests) {
   avl<int, std::string, std::less<>, AllocatorMine<NodeAVL<int, std::string>>>
       a{{12, "asd"},    {4213, "sfdg"},    {5435, "sdfdsf"},
@@ -8,15 +33,18 @@ TEST(toperatorOne, AVLTreeTests) {
         {12234, "asd"}, {4217983, "sfdg"}, {535435, "sdfdsf"}};
   EXPECT_EQ(a[4217983], "sfdg");
 }
-TEST(toperatorTwo, AVLTreeTests) {
+TEST(treeBalance, AVLTreeTests) {
   avl<int, int, std::less<>, AllocatorMine<NodeAVL<int, int>>> a;
   for (int i = 0; i < 10000; i++) {
     a[i] = i;
   }
-  EXPECT_EQ(a[400], 400);
+  EXPECT_EQ(a.base_->height,
+            13);  // Используем курс по DSA: h>=log(n+1)base2 -1,
+  // где h - МИНИМАЛЬНАЯ высота дерева, а n - количество узлов.
+  // log(10001)base2-1 ~~ 12,3. Округляем до целого числа т.е. 13.
 }
 
-TEST(toperatorThree, AVLTreeTests) {
+TEST(toperatorTwo, AVLTreeTests) {
   avl<int, int, std::less<>, AllocatorMine<NodeAVL<int, int>>> a;
   a[123] = 423;
   EXPECT_EQ(a[123], 423);
@@ -35,7 +63,8 @@ TEST(insert, AVLTreeTests) {
   a.insert({12333, 3423});
   a.insert({1234, 4423});
   a.insert({1235, 4253});
-  EXPECT_EQ(a.at(12333).second, 3423);
+  EXPECT_EQ(a.at(12333).second, 3423);  // для insert и вставок делал
+  // рандомные "пробные" проверки
 }
 
 TEST(erase, AVLTreeTests) {

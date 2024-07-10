@@ -101,6 +101,7 @@ template <class NodeAVL>
 Iterator<NodeAVL> &Iterator<NodeAVL>::operator++() {
   if (inorder.empty()) {
     Iterator tmp = Iterator(nullptr);
+    tmp.trace = (*this).trace;
     *this = tmp;
     return *this;
   }
@@ -132,7 +133,9 @@ Iterator<NodeAVL> &Iterator<NodeAVL>::operator--(int) {
 template <class NodeAVL>
 Iterator<NodeAVL> &Iterator<NodeAVL>::operator--() {
   current = trace[trace.size() - 2];
-  inorder.erase(inorder.begin());
+  if (!inorder.empty()) {
+    inorder.erase(inorder.begin());
+  }
   if (std::find(inorder.begin(), inorder.end(), trace[trace.size() - 1]) ==
       inorder.end()) {
     inorder.push_back(trace[trace.size() - 1]);

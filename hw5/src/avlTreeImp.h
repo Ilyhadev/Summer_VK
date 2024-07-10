@@ -48,10 +48,14 @@ iterator<Key, T> avl<Key, T, Compare, Allocator>::begin() {
 template <class Key, class T, class Compare, class Allocator>
 iterator<Key, T> avl<Key, T, Compare, Allocator>::end() {
   iterator itera(base_);
-  while ((itera.current) != nullptr) {
-    itera++;
+  iterator ans(base_);
+  while (((itera).current)!= nullptr) {
+    auto temp = ((itera++).current);
+    if (temp != NULL) {
+      ans = itera;
+    }
   }
-  return (itera);
+  return (ans++);
 }
 template <class Key, class T, class Compare, class Allocator>
 iteratorR<Key, T> avl<Key, T, Compare, Allocator>::rbegin() {
