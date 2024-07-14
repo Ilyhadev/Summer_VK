@@ -5,3 +5,5 @@ make: setup.py
 	sudo ./setup.py install
 	chmod +x $(TEST_EXEC)
 	./$(TEST_EXEC)
+test: $(TEST_EXEC)
+	./$(TEST_EXEC)
